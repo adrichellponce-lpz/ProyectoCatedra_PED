@@ -56,5 +56,13 @@ namespace ProyectoCatedra_PED
         {
             return $"{Titulo} - {Artista}";
         }
+        public void IrA(TimeSpan tiempo)
+        {
+            if (audioFile != null)
+            {
+                audioFile.CurrentTime = tiempo;
+            }
+        }
+
     }
 }

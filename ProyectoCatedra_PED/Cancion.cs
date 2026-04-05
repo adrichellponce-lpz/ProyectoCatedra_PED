@@ -14,8 +14,8 @@ namespace ProyectoCatedra_PED
         public string Artista { get; set; }
         public string RutaArchivo { get; set; }
 
-        private WaveOutEvent waveOut;
-        private AudioFileReader audioFile;
+        private WaveOutEvent waveOut;// Manejador de salida de audio
+        private AudioFileReader audioFile;// Lector del archivo MP3
 
         public Cancion(string titulo, string artista, string rutaArchivo)
         {
@@ -26,10 +26,11 @@ namespace ProyectoCatedra_PED
 
         public void Reproducir()
         {
-            audioFile = new AudioFileReader(RutaArchivo);
-            waveOut = new WaveOutEvent();
-            waveOut.Init(audioFile);
-            waveOut.Play();
+
+            audioFile = new AudioFileReader(RutaArchivo);// Carga el archivo
+            waveOut = new WaveOutEvent();               // Inicializa el dispositivo
+            waveOut.Init(audioFile);                    // Relaciona el archivo y la salida
+            waveOut.Play();                             // Inicia reproducción
         }
 
         public void Detener()
@@ -44,23 +45,23 @@ namespace ProyectoCatedra_PED
 
         public TimeSpan Duracion()
         {
-            return audioFile?.TotalTime ?? TimeSpan.Zero;
+            return audioFile?.TotalTime ?? TimeSpan.Zero;// Tiempo total de la cancion
         }
 
         public TimeSpan TiempoActual()
         {
-            return audioFile?.CurrentTime ?? TimeSpan.Zero;
+            return audioFile?.CurrentTime ?? TimeSpan.Zero;// Segundo actual
         }
 
         public override string ToString()
         {
-            return $"{Titulo} - {Artista}";
+            return $"{Titulo} - {Artista}";// Formato para el ListBox
         }
         public void IrA(TimeSpan tiempo)
         {
             if (audioFile != null)
             {
-                audioFile.CurrentTime = tiempo;
+                audioFile.CurrentTime = tiempo;// Salto temporal en la cancion
             }
         }
 

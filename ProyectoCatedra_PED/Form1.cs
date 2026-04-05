@@ -14,7 +14,7 @@ namespace ProyectoCatedra_PED
 {
     public partial class Form1 : Form
     {
-        private ListaDobleEnlazada playlist = new ListaDobleEnlazada();
+        private ListaDobleEnlazada playlist = new ListaDobleEnlazada(); // Estructura de datos principal
 
         public Form1()
         {
@@ -27,7 +27,7 @@ namespace ProyectoCatedra_PED
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Archivos MP3|*.mp3";
+            ofd.Filter = "Archivos MP3|*.mp3";// Filtro para solo mostrar audio
             ofd.Title = "Selecciona una canción";
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -35,26 +35,26 @@ namespace ProyectoCatedra_PED
                 string ruta = ofd.FileName;
                 string titulo = Path.GetFileNameWithoutExtension(ruta);
                 Cancion nueva = new Cancion(titulo, "Desconocido", ruta);
-                playlist.Agregar(nueva);
-                listboxPlaylist.Items.Add(nueva);
+                playlist.Agregar(nueva); // Guarda en lista doble
+                listboxPlaylist.Items.Add(nueva);// Muestra en interfaz
             }
         }
 
         private void TimerCancion_Tick(object sender, EventArgs e)
         {
-            Cancion actual = playlist.Actual();
+            Cancion actual = playlist.Actual();// Obtiene nodo actual
             if (actual != null)
             {
                 TimeSpan actualTime = actual.TiempoActual();
                 TimeSpan totalTime = actual.Duracion();
 
-                lblInicio.Text = actualTime.ToString(@"mm\:ss");
-                lblFin.Text = totalTime.ToString(@"mm\:ss");
+                lblInicio.Text = actualTime.ToString(@"mm\:ss");// Tiempo transcurrido
+                lblFin.Text = totalTime.ToString(@"mm\:ss");// Tiempo total
 
                 if (totalTime.TotalSeconds > 0)
                 {
                     int porcentaje = (int)((actualTime.TotalSeconds / totalTime.TotalSeconds) * 100);
-                    progressBarCancion.Value = Math.Min(porcentaje, 100);
+                    progressBarCancion.Value = Math.Min(porcentaje, 100); //mueve la barra
                 }
             }
         }
@@ -65,8 +65,8 @@ namespace ProyectoCatedra_PED
 
             if (actual != null)
             {
-                actual.Reproducir();
-                timerCancion.Start();
+                actual.Reproducir(); // Inicia NAudio
+                timerCancion.Start();// Inicia contador visual
             }
 
         }
@@ -77,8 +77,8 @@ namespace ProyectoCatedra_PED
 
             if (actual != null)
             {
-                actual.Detener();
-                timerCancion.Stop();
+                actual.Detener(); // Libera el archivo de audio
+                timerCancion.Stop(); // Detiene contador
             }
 
         }
@@ -92,14 +92,17 @@ namespace ProyectoCatedra_PED
                 MouseEventArgs me = (MouseEventArgs)e;
 
 
-                double porcentaje = (double)me.X / progressBarCancion.Width;
+                double porcentaje = (double)me.X / progressBarCancion.Width;// Calcula posición del clic
 
                 TimeSpan duracion = actual.Duracion();
 
                 TimeSpan nuevoTiempo = TimeSpan.FromSeconds(duracion.TotalSeconds * porcentaje);
 
-                actual.IrA(nuevoTiempo);
+                actual.IrA(nuevoTiempo);// Salta al segundo elegido
             }
         }
+
+
+
     }
 }

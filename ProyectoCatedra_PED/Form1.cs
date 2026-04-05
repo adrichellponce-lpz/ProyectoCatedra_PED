@@ -59,6 +59,47 @@ namespace ProyectoCatedra_PED
             }
         }
 
-       
+        private void btnReproducir_Click(object sender, EventArgs e)
+        {
+            Cancion actual = playlist.Actual();
+
+            if (actual != null)
+            {
+                actual.Reproducir();
+                timerCancion.Start();
+            }
+
+        }
+
+        private void btnDetener_Click(object sender, EventArgs e)
+        {
+            Cancion actual = playlist.Actual();
+
+            if (actual != null)
+            {
+                actual.Detener();
+                timerCancion.Stop();
+            }
+
+        }
+
+        private void progressBarCancion_Click(object sender, EventArgs e)
+        {
+            Cancion actual = playlist.Actual();
+
+            if (actual != null)
+            {
+                MouseEventArgs me = (MouseEventArgs)e;
+
+
+                double porcentaje = (double)me.X / progressBarCancion.Width;
+
+                TimeSpan duracion = actual.Duracion();
+
+                TimeSpan nuevoTiempo = TimeSpan.FromSeconds(duracion.TotalSeconds * porcentaje);
+
+                actual.IrA(nuevoTiempo);
+            }
+        }
     }
 }

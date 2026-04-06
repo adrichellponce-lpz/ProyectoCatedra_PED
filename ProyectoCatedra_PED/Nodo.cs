@@ -16,7 +16,7 @@ namespace ProyectoCatedra_PED
         {
             Data = data;    // Asigna la canción al crear el nodo
             Prev = null;    //Al inicializarse no se cuenta ni con un enlace previo ni uno siguiente
-            Next = null;
+            Next = null;   // No cuenta ningun enlace posterior
         }
     }
 }

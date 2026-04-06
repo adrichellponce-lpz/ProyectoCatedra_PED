@@ -78,7 +78,7 @@ namespace ProyectoCatedra_PED
             if (actual != null)
             {
                 actual.Detener(); // Libera el archivo de audio
-                timerCancion.Stop(); // Detiene contador
+                timerCancion.Stop(); // Detiene contador de la canción
             }
 
         }

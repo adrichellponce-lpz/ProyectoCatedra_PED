@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoCatedra_PED
 {
-    internal class ArbolBusqueda
+    public class ArbolBusqueda
     {
         private NodoArbol raiz;
 

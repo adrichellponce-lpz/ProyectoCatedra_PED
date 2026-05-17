@@ -14,8 +14,8 @@ namespace ProyectoCatedra_PED
         public string Artista { get; set; }
         public string RutaArchivo { get; set; }
 
-        private WaveOutEvent waveOut;// Manejador de salida de audio
-        private AudioFileReader audioFile;// Lector del archivo MP3
+        private WaveOutEvent waveOut;
+        private AudioFileReader audioFile;
 
         public Cancion(string titulo, string artista, string rutaArchivo)
         {
@@ -26,11 +26,20 @@ namespace ProyectoCatedra_PED
 
         public void Reproducir()
         {
+            if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
+                return;
 
-            audioFile = new AudioFileReader(RutaArchivo);// Carga el archivo
-            waveOut = new WaveOutEvent();               // Inicializa el dispositivo
-            waveOut.Init(audioFile);                    // Relaciona el archivo y la salida
-            waveOut.Play();                             // Inicia reproducción
+            if (waveOut != null && waveOut.PlaybackState == PlaybackState.Paused)
+            {
+                waveOut.Play(); // reanudar si estaba en pausa
+                return;
+            }
+
+            Detener();
+            audioFile = new AudioFileReader(RutaArchivo);
+            waveOut = new WaveOutEvent();
+            waveOut.Init(audioFile);
+            waveOut.Play();
         }
 
         public void Detener()
@@ -40,30 +49,46 @@ namespace ProyectoCatedra_PED
                 waveOut.Stop();
                 waveOut.Dispose();
                 audioFile.Dispose();
+                waveOut = null;
+                audioFile = null;
+            }
+        }
+
+        public void Pausar()
+        {
+            if (waveOut != null && waveOut.PlaybackState == PlaybackState.Playing)
+            {
+                waveOut.Pause();
             }
         }
 
         public TimeSpan Duracion()
         {
-            return audioFile?.TotalTime ?? TimeSpan.Zero;// Tiempo total de la cancion
+            return audioFile?.TotalTime ?? TimeSpan.Zero;
         }
 
         public TimeSpan TiempoActual()
         {
-            return audioFile?.CurrentTime ?? TimeSpan.Zero;// Segundo actual
+            return audioFile?.CurrentTime ?? TimeSpan.Zero;
         }
 
         public override string ToString()
         {
-            return $"{Titulo} - {Artista}";// Formato para el ListBox
+            return $"{Titulo} - {Artista}";
         }
         public void IrA(TimeSpan tiempo)
         {
             if (audioFile != null)
             {
-                audioFile.CurrentTime = tiempo;// Salto temporal en la cancion
+                audioFile.CurrentTime = tiempo;
             }
         }
+
+        public bool EstaReproduciendo()
+        {
+            return waveOut != null && waveOut.PlaybackState == PlaybackState.Playing;
+        }
+
 
     }
 }
